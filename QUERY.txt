@@ -1,4 +1,4 @@
-1) In the Online Advertising table, the date is "2021-12-16" and the type is "Instagram Advertising".
+1) 
 SELECT Published_date, Type FROM online_advertisement 
 WHERE Published_date LIKE "2021-12-16" && Type LIKE "Instagram advertisement";
 
