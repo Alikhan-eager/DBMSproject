@@ -2,9 +2,6 @@
 SELECT Published_date, Type FROM online_advertisement 
 WHERE Published_date LIKE "2021-12-16" && Type LIKE "Instagram advertisement";
 
-π published_date → a, b
- σ a = "2021-12-16" AND b = "Instagram advertisement" online_advertisement
-
 2)
 SELECT * FROM rooms 
 WHERE Booking_id in(SELECT Booking_id from booking 
@@ -13,12 +10,12 @@ WHERE Booking_id in(SELECT Booking_id from booking
                     WHERE `regular customer`.`Regular_Cus_Id` = 1)));
 
 
-3)регулар кастомордын аты жони жане чеги
+3)
 SELECT `new customer`.`First_Name`, `new customer`.`Last_Name`, bill.Total_Paid_$,`regular customer`.`Regular_Cus_Id` FROM `new customer` 
 INNER JOIN bill on `new customer`.`Customer_id` = bill.Customer_id
 INNER JOIN `regular customer` on `regular customer`.`Customer_id` = `new customer`.`Customer_id`;
 
-4)бүкіл админдардын жалақысын 50 пайызға көтеру
+4)
 UPDATE `staff salary`
 set `staff salary`.`Salary_$` = `staff salary`.`Salary_$` * 1.5
 WHERE Staff_id in(SELECT Staff_id from staff WHERE Staff_id in(SELECT Staff_id from admin));
@@ -40,7 +37,7 @@ RENAME TO provider;
 DELETE FROM STAFF 
 WHERE staff_id = 7;
 
-8) нью костомердын лаундрый чарджездегы акшасын осу ретимен шыгару
+8) 
 SELECT laundry.Laundry_charges, laundry.Laundry_amount, `new customer`.`First_Name`, `new customer`.`Last_Name` FROM `new customer`
 INNER JOIN laundry ON laundry.Booking_id = `new customer`.`Booking_id`
 ORDER BY laundry.Laundry_charges;
@@ -62,7 +59,7 @@ WHERE Customer_id IN(SELECT Customer_id FROM BILL
                     WHERE Bill_No IN(SELECT Bill_No FROM credit_card
                                      WHERE Name LIKE "K%"));
 
-12)зарплатасы 750 ден томен емес Админдарды шыгару
+12)
 SELECT * from admin 
 where staff_id in(SELECT staff_id from staff WHERE not EXISTS(SELECT staff_id from staff salary
                                                               where staff_id = staff.Staff_id
