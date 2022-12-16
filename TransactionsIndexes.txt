@@ -1,0 +1,27 @@
+CREATE INDEX supplier_index ON supplier (pin_code, name);
+SHOW INDEX FROM supplier;
+DROP INDEX supplier_index ON supplier
+
+CREATE INDEX idx_discount ON discount (amount, percent);
+SHOW INDEX FROM discount;
+DROP INDEX idx_discount ON discount
+
+CREATE INDEX idx_credit_card ON credit_card (name, code);
+SHOW INDEX FROM credit_card;
+DROP INDEX idx_credit_card ON credit_card
+
+BEGIN TRANSACTION;
+UPDATE rooms 
+SET Number_of_beds = 5
+WHERE Room_type = "Duplex";
+COMMIT;
+
+BEGIN TRANSACTION;
+DELETE from regular customer
+WHERE No_of_visits < 7;
+COMMIT;
+
+BEGIN TRANSACTION;
+SELECT * FROM bill 
+where Bill_No in(SELECT Bill_id from credit_card WHERE Name = "Jusan");
+COMMIT;

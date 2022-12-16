@@ -1,0 +1,73 @@
+1) HOTEL
+hotel_id -> {email, contact, location, hotel_name}
+email -> {contact, location, hotel_name}
+contact -> {email, location, hotel_name}
+
+2) BOOKING
+booking_id -> {check_in_date, check_out_date, num_of_guests, booking_date}
+
+3) ROOMS
+room_id -> {room_no, room_type, max_quests, num_of_beds, booking_id}
+room_num -> {room_type, num_of_beds, main_id}
+
+4) STAFF
+staff_id -> {staff_post, full_name, email, contact, hotel_id}
+contact -> {staff_post, full_name, email, hotel_id}
+email -> {staff_post, full_name, contact, hotel_id}
+
+5) STAFF SALARY
+salary_id -> {bank_account, bonus, salary, staff_id}
+bank_account -> {bonus, salary, staff_id}
+
+6) ADMIN
+user_id -> {contact, email, name, staff_id}
+contact -> {email, name, staff_id}
+email -> {contact, name, staff_id}
+
+7) SUPPLIER
+supplier_id -> {pin_code, name, address, email, user_id}
+pin_code -> {name, addres, email, user_id}
+email -> {name, pin_code, address, user_id}
+
+8) ONLINE PARTNERS
+id -> {name}
+
+9) ONLINE ADVERTISEMENT
+ad_id -> {published_date, type}
+
+10) NEW CUSTOMER
+customer_id -> {first_name, last_name, country, city, contact, email, main_id}
+contact -> {first_name, last_name, country, city, email, main_id}
+email -> {first_name, last_name, country, city, contact, main_id}
+
+11) REGULAR CUSTOMER
+regular_customer_id -> {no_of_visits}
+
+12) REGISTERED CUSTOMER
+customer_username -> {password, customer_id}
+password -> {customer_username, customer_id}
+
+13) CANCELLATION
+cancellation_id -> {cancellation_date, amount, custpomer_id}
+
+14) REFUND
+refund_id -> {refund_payment, received_date, customer_id}
+
+15) BILL
+bill_no -> {service_tax, total_paid, laundry_charges, total_food_charges, total_room_charges, customer_id}
+
+16) CREDIT CARDS
+credit_card_id -> {name, code, bill_no}
+code -> {name, bill_no}
+
+17) DISCOUNT
+discount_id -> {amount, percent, bill_no}
+
+18) HOTEL SERVICE
+service_id -> {service_cost, service_name, booking_id}
+
+19) LAUNDRY
+laundry_id -> {laundry_charge, laundry_amount, booking_id}
+
+20) FOOD SERVICE
+food_id -> {quantity, total_food_charges, rate, item_name, booking_id}

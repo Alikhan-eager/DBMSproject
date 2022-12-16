@@ -1,0 +1,32 @@
+1)
+SELECT *
+FROM new_customer 
+WHERE a = "Japan" AND cit = "Ushibuka"
+
+σ new_customer
+ σ a = "Japan" AND cit = "Ushibuka" new_customer
+
+2)
+SELECT Published_date AS a, Type AS b FROM online_advertisement 
+WHERE a = "2021-12-16" && b = "Instagram advertisement";
+
+π published_date → a, type → b
+ σ a = "2021-12-16" AND b = "Instagram advertisement" online_advertisement
+
+3)
+SELECT contact AS con, email AS em FROM staff 
+JOIN staff_salary ON staff.Staff_id = staff_salary.Staff_id
+
+π contact → con, email → em (staff ⋈ staff.staff_id = staff_salary.staff_id staff_salary)
+
+4)
+SELECT name, COUNT (name)FROM credit_card 
+GROUP BY name
+
+γ name, COUNT (name) credit_card
+
+5)
+SELECT * FROM booking
+INNER JOIN hotel_services ON booking.Booking_id = hotel_services.Booking_id
+
+booking ⋈ booking . booking_id = hotel_services . booking_id hotel_services
