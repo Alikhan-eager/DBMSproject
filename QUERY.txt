@@ -1,0 +1,111 @@
+1) In the Online Advertising table, the date is "2021-12-16" and the type is "Instagram Advertising".
+SELECT Published_date, Type FROM online_advertisement 
+WHERE Published_date LIKE "2021-12-16" && Type LIKE "Instagram advertisement";
+
+π published_date → a, b
+ σ a = "2021-12-16" AND b = "Instagram advertisement" online_advertisement
+
+2)
+SELECT * FROM rooms 
+WHERE Booking_id in(SELECT Booking_id from booking 
+                    WHERE Booking_id in (SELECT Booking_id from `new customer` 
+                    WHERE Customer_id in(SELECT Customer_id from `regular customer` 
+                    WHERE `regular customer`.`Regular_Cus_Id` = 1)));
+
+
+3)регулар кастомордын аты жони жане чеги
+SELECT `new customer`.`First_Name`, `new customer`.`Last_Name`, bill.Total_Paid_$,`regular customer`.`Regular_Cus_Id` FROM `new customer` 
+INNER JOIN bill on `new customer`.`Customer_id` = bill.Customer_id
+INNER JOIN `regular customer` on `regular customer`.`Customer_id` = `new customer`.`Customer_id`;
+
+4)бүкіл админдардын жалақысын 50 пайызға көтеру
+UPDATE `staff salary`
+set `staff salary`.`Salary_$` = `staff salary`.`Salary_$` * 1.5
+WHERE Staff_id in(SELECT Staff_id from staff WHERE Staff_id in(SELECT Staff_id from admin));
+
+
+5)
+ALTER TABLE online_partners
+ADD Contact bigint;
+
+UPDATE online_partners 
+set Contact = 8707333192
+WHERE id = 1 AND id = 2 AND id = 3 AND id = 4;
+
+6) 
+ALTER TABLE supplier
+RENAME TO provider;
+
+7)
+DELETE FROM STAFF 
+WHERE staff_id = 7;
+
+8) нью костомердын лаундрый чарджездегы акшасын осу ретимен шыгару
+SELECT laundry.Laundry_charges, laundry.Laundry_amount, `new customer`.`First_Name`, `new customer`.`Last_Name` FROM `new customer`
+INNER JOIN laundry ON laundry.Booking_id = `new customer`.`Booking_id`
+ORDER BY laundry.Laundry_charges;
+
+9)
+SELECT Item_name, SUM(Total_Food_Charges) AS AllSales
+FROM food_service 
+GROUP BY Item_name;
+
+10)
+SELECT `new customer`.`First_Name`, `new customer`.`Country`, `new customer`.`Email`, `regular customer`.`No_of_visits`
+FROM `new customer`
+LEFT JOIN `regular customer`
+ON `new customer`.`Customer_id` = `regular customer`.`Customer_id`;
+
+11)
+SELECT `new customer`.`First_Name`, `new customer`.`City`, `new customer`.`Contact`, `new customer`.`Email` FROM `new customer`
+WHERE Customer_id IN(SELECT Customer_id FROM BILL 
+                    WHERE Bill_No IN(SELECT Bill_No FROM credit_card
+                                     WHERE Name LIKE "K%"));
+
+12)зарплатасы 750 ден томен емес Админдарды шыгару
+SELECT * from admin 
+where staff_id in(SELECT staff_id from staff WHERE not EXISTS(SELECT staff_id from staff salary
+                                                              where staff_id = staff.Staff_id
+                                                              and staff salary.Salary_$ < 750));
+
+13)
+SELECT * FROM laundry
+WHERE Laundry_charges = ANY (SELECT total_food_charges FROM food_service);
+
+
+14)
+SELECT * FROM staff
+WHERE staff_id IN(SELECT Staff_id FROM staff salary
+                   WHERE salary_$ > ALL (SELECT salary_$ FROM staff salary 
+                                      WHERE staff_id IN(SELECT staff_id FROM admin)));
+
+15)
+SELECT name, count(name) as count from credit_card
+GROUP by name
+
+16)
+SELECT * from booking
+where booking.Booking_id in(SELECT `new customer`.Booking_id  from `new customer`
+                            WHERE `new customer`.Customer_id in(SELECT bill.Customer_id from bill
+                                                                 where bill.Total_Paid_$ in(SELECT Max(Total_Paid_$) from bill)))
+
+17)
+SELECT Rate from laundry
+UNION
+SELECT Rate as rating from food_service
+
+18)
+CREATE VIEW China_customers AS
+SELECT first_name, contact, email
+FROM `new customer`
+WHERE country = "China";
+
+19)
+CREATE INDEX supplier_index
+ON supplier (pin_code, name);
+
+20)
+SELECT * from regular customer
+WHERE regular customer.Customer_id in(SELECT Customer_id from new customer
+                                          where Customer_id in(SELECT Customer_id from bill
+                                                               where bill.Bill_No in(SELECT bill_id FROM credit_card WHERE name like "kaspi")))
