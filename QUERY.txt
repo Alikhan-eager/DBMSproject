@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 1)
+=======
+1) 
+>>>>>>> ed1fbb1c065a5613b88acb27f76540bae75d4aab
 SELECT Published_date, Type FROM online_advertisement 
 WHERE Published_date LIKE "2021-12-16" && Type LIKE "Instagram advertisement";
 
@@ -59,7 +63,7 @@ WHERE Customer_id IN(SELECT Customer_id FROM BILL
                     WHERE Bill_No IN(SELECT Bill_No FROM credit_card
                                      WHERE Name LIKE "K%"));
 
-12)зарплатасы 750 ден томен емес Админдарды шыгару
+12)
 SELECT * from admin 
 where staff_id in(SELECT staff_id from staff WHERE not EXISTS(SELECT staff_id from staff salary
                                                               where staff_id = staff.Staff_id
@@ -106,6 +110,7 @@ SELECT * from regular customer
 WHERE regular customer.Customer_id in(SELECT Customer_id from new customer
                                           where Customer_id in(SELECT Customer_id from bill
                                                                where bill.Bill_No in(SELECT bill_id FROM credit_card WHERE name like "kaspi")))
+<<<<<<< HEAD
 
 TRIGGERS:
 
@@ -131,3 +136,5 @@ where new customer.Customer_id = new.Customer_id
 CREATE TRIGGER udaliBooking2 AFTER DELETE ON new customer
  FOR EACH ROW DELETE from booking
 where booking.Booking_id = old.Booking_id
+=======
+>>>>>>> ed1fbb1c065a5613b88acb27f76540bae75d4aab
