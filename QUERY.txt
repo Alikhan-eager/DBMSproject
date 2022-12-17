@@ -1,9 +1,6 @@
-1) In the Online Advertising table, the date is "2021-12-16" and the type is "Instagram Advertising".
+1)
 SELECT Published_date, Type FROM online_advertisement 
 WHERE Published_date LIKE "2021-12-16" && Type LIKE "Instagram advertisement";
-
-π published_date → a, b
- σ a = "2021-12-16" AND b = "Instagram advertisement" online_advertisement
 
 2)
 SELECT * FROM rooms 
@@ -13,12 +10,12 @@ WHERE Booking_id in(SELECT Booking_id from booking
                     WHERE `regular customer`.`Regular_Cus_Id` = 1)));
 
 
-3)регулар кастомордын аты жони жане чеги
+3)
 SELECT `new customer`.`First_Name`, `new customer`.`Last_Name`, bill.Total_Paid_$,`regular customer`.`Regular_Cus_Id` FROM `new customer` 
 INNER JOIN bill on `new customer`.`Customer_id` = bill.Customer_id
 INNER JOIN `regular customer` on `regular customer`.`Customer_id` = `new customer`.`Customer_id`;
 
-4)бүкіл админдардын жалақысын 50 пайызға көтеру
+4)
 UPDATE `staff salary`
 set `staff salary`.`Salary_$` = `staff salary`.`Salary_$` * 1.5
 WHERE Staff_id in(SELECT Staff_id from staff WHERE Staff_id in(SELECT Staff_id from admin));
@@ -40,7 +37,7 @@ RENAME TO provider;
 DELETE FROM STAFF 
 WHERE staff_id = 7;
 
-8) нью костомердын лаундрый чарджездегы акшасын осу ретимен шыгару
+8) 
 SELECT laundry.Laundry_charges, laundry.Laundry_amount, `new customer`.`First_Name`, `new customer`.`Last_Name` FROM `new customer`
 INNER JOIN laundry ON laundry.Booking_id = `new customer`.`Booking_id`
 ORDER BY laundry.Laundry_charges;
@@ -109,3 +106,28 @@ SELECT * from regular customer
 WHERE regular customer.Customer_id in(SELECT Customer_id from new customer
                                           where Customer_id in(SELECT Customer_id from bill
                                                                where bill.Bill_No in(SELECT bill_id FROM credit_card WHERE name like "kaspi")))
+
+TRIGGERS:
+
+CREATE TRIGGER skidaTaxi BEFORE INSERT ON bill
+ FOR EACH ROW if new.Service_Tax_$ > 5 then
+set new.Service_Tax_$   = new.Service_Tax_$   * 0.95;
+end IF
+
+CREATE TRIGGER skidkaLaundry BEFORE INSERT ON bill
+ FOR EACH ROW if new.Laundry_Charges_$ > 15 then
+set new.Laundry_Charges_$  = new.Laundry_Charges_$  * 0.9;
+end IF
+
+CREATE TRIGGER skidkaRoom BEFORE INSERT ON bill
+ FOR EACH ROW if new.Total_Room_Charges_$ > 50 then
+set new.Total_Room_Charges_$  = new.Total_Room_Charges_$  * 0.9;
+end IF
+
+CREATE TRIGGER udaliBooking AFTER INSERT ON cancellation
+ FOR EACH ROW DELETE from new customer
+where new customer.Customer_id = new.Customer_id
+
+CREATE TRIGGER udaliBooking2 AFTER DELETE ON new customer
+ FOR EACH ROW DELETE from booking
+where booking.Booking_id = old.Booking_id
